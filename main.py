@@ -20,12 +20,12 @@ class GetComands:
                  or 'chrome' in value
                  or ('google' in value and 'chrome' in value)):
                  os.startfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")
-            if ('привіт' in value):
+            elif ('привіт' in value):
                 plyer.notification.notify(
                     message='Hello Maksym!',
                     app_name='Helper',
                     title='Helper')
-            if ('порахуй' in value):
+            elif ('порахуй' in value):
                 res_0 = value[1:]
                 res_1 = ''
                 for i in res_0:
@@ -41,18 +41,43 @@ class GetComands:
                         message='Error',
                         app_name='Helper',
                         title='Helper')
-            if ('запиши' in value):
+            elif ('запиши' in value):
                 res_0 = value[1:]
                 res_1 = ''
                 for i in res_0:
-                    res_1 += str(i)
-
-                f.open('writed.txt', 'w')
+                    res_1 += str(i) + ' '
+                    #print(i)
+                #print('YES')
+                f=open('writed.txt', 'w')
+                print(res_1)
                 f.write(res_1)
                 plyer.notification.notify(
                         message='Готово, все збережено в файл writed.txt',
                         app_name='Helper',
                         title='Helper')
+                f.close()
+            elif('пока' in value):
+                run = False
+                
+                plyer.notification.notify(
+                        message='Удачі!',
+                        app_name='Helper',
+                        title='Helper')
+                
+                return False
+            
+            elif('дякую' in value):
+                plyer.notification.notify(
+                        message='Звертайтесь )',
+                        app_name='Helper',
+                        title='Helper')
+            else:
+                plyer.notification.notify(
+                        message='Не зрозумів вас',
+                        app_name='Helper',
+                        title='Helper')
+
+        return True
 get_comand = GetComands()
 
 while run:
@@ -62,9 +87,16 @@ while run:
 
         try:
             text = r.recognize_google(audio,language='uk-UK')
-            get_comand.get_comand(text)
-            #print(text)
-            if (text.lower()=='пока'):
-                run = False
+            res_0 = text.split(' ')
+            
+            if (res_0[0] == 'робот'):
+                res_1 = res_0[1:]
+                text = ''
+                for i in res_1:
+                    text += i + ' '
+                
+                
+                run = get_comand.get_comand(text)
+            
         except:
-            print('bad')
+            print('')
